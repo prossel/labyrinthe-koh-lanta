@@ -58,10 +58,11 @@ function onPointerMove(e) {
   const rect = canvas.getBoundingClientRect();
   const x = Math.floor((e.clientX - rect.left) / CELL_SIZE) - offsetX;
   const y = Math.floor((e.clientY - rect.top) / CELL_SIZE) - offsetY;
-  const nx = Math.max(0, Math.min(grid - selectedPiece.w, x));
-  const ny = Math.max(0, Math.min(grid - selectedPiece.h, y));
 
-  // Collision simple
+  const isHorizontal = selectedPiece.w > selectedPiece.h;
+  let nx = isHorizontal ? Math.max(0, Math.min(grid - selectedPiece.w, x)) : selectedPiece.x;
+  let ny = isHorizontal ? selectedPiece.y : Math.max(0, Math.min(grid - selectedPiece.h, y));
+
   if (!pieces.some(p => p !== selectedPiece &&
     nx < p.x + p.w && nx + selectedPiece.w > p.x &&
     ny < p.y + p.h && ny + selectedPiece.h > p.y)) {
